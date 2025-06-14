@@ -143,6 +143,27 @@ ALL_RELATIONSHIPS.append(labels_relationship)
 tracks_relationship = AppleItemRelationshipQuery(AppleTypes.ALBUM, "tracks")
 ALL_RELATIONSHIPS.append(tracks_relationship)
 
+albums_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "albums", 10)
+ALL_RELATIONSHIPS.append(albums_relationship)
+
+artists_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "artists", 10)
+ALL_RELATIONSHIPS.append(artists_relationship)
+
+composers_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "composers", 10)
+ALL_RELATIONSHIPS.append(composers_relationship)
+
+genres_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "genres")
+ALL_RELATIONSHIPS.append(genres_relationship)
+
+library_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "library")
+ALL_RELATIONSHIPS.append(library_relationship)
+
+music_videos_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "music-videos", 10)
+ALL_RELATIONSHIPS.append(music_videos_relationship)
+
+station_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "station")
+ALL_RELATIONSHIPS.append(station_relationship)
+
 
 ALL_VIEWS = []
 

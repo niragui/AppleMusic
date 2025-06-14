@@ -1,5 +1,7 @@
 from typing import Optional
 
+import json
+
 from ..session.applesession import AppleSession
 from ..session.limited_request import LimitedRequest
 from ..constants import BASE_APPLE_URL, BASE_API_URL
@@ -93,6 +95,9 @@ class AppleItem():
 
         for view in self.views:
             data["relationships"][view.name] = view.get_data(self.item_id, self.session)
+
+        with open(f"{self.item_type.value}.json", "w") as f:
+            f.write(json.dumps(data, indent=4))
 
         self.set_data(data)
 
