@@ -6,30 +6,97 @@ import datetime
 from .apple_item import AppleItem, AppleTypes
 from .artwork import ArtWork
 
-from ..session.applesession import AppleSession
-from ..constants import BASE_API_URL
+from .apple_genre import AppleGenre
+from .apple_artist_base import AppleArtistBase
+from .apple_track_base import AppleTrackBase
 
-class AppleTrack(AppleItem):
+from ..session.applesession import AppleSession
+
+
+def get_relationship(relationships: dict,
+                     relationship_name: str):
+    """
+    Extract the data inside a relationship.
+    Returns None if not found
+
+    Parameters:
+        - relationships: Dictionary with all the relationships
+        - relationship_name: Name of the relationship to extract
+    """
+    searched_relation = relationships.get(relationship_name, None)
+    if searched_relation is None:
+        return None
+
+    if "data" in searched_relation:
+        searched_relation = searched_relation["data"]
+
+    return searched_relation
+
+
+class AppleTrack(AppleTrackBase):
     def __init__(self,
                  track_id: str,
                  session: Optional[AppleSession] = None,
                  read_data: bool = True) -> None:
-        self._name = ""
-        self._credits = ""
         self._artists = []
-        self._composer = ""
-
-        self._album_name = ""
-        self._album_id = ""
-        self._album_position = 0
-        self._album_disc = 0
+        self._composers = []
 
         self._genres = []
-        self._duration = 0
-        self._release = None
+        super().__init__(track_id, session, read_data)
 
-        self._artwork = None
-        super().__init__(track_id, AppleTypes.TRACK, session, read_data)
+    def set_genres(self, relationships: dict):
+        """
+        Sets the artist data given the relationships dictionary.
+
+        Parameters:
+            - relationships: Dictionary with the track relationships
+        """
+        genres = get_relationship(relationships, "genres")
+        if genres is None:
+            return
+
+        self._genres = []
+
+        for genre in genres:
+            genre_id = genre["id"]
+            genre_item = AppleGenre(genre_id, self.session, False)
+            genre_item.set_data(genre)
+
+            self._genres.append(genre_item)
+
+    def set_artists(self, relationships: dict):
+        """
+        Sets the artists data given the relationships dictionary.
+
+        Parameters:
+            - relationships: Dictionary with the track relationships
+        """
+        self._artists = []
+
+        artists = get_relationship(relationships, "artists")
+        if artists is None:
+            return
+
+        for artist in artists:
+            artist_id = artist["id"]
+            artist_item = AppleArtistBase(artist_id, self.session)
+            artist_item.set_data(artist)
+
+            self._artists.append(artist_item)
+
+    def set_composers(self, relationships: dict):
+        self._composers = []
+
+        composers = get_relationship(relationships, "composers")
+        if composers is None:
+            return
+
+        for composer in composers:
+            composer_id = composer["id"]
+            composer_item = AppleArtistBase(composer_id, self.session)
+            composer_item.set_data(composer)
+
+            self._composers.append(composer_item)
 
     def set_data(self,
                  data: dict):
@@ -40,114 +107,14 @@ class AppleTrack(AppleItem):
         Parameters:
             - data: Data given by the Apple Music API
         """
-        attributes = data["attributes"]
+        super().set_data(data)
 
-        self._name = attributes["name"]
-        self._credits = attributes["artistName"]
-        self._composer = attributes.get("composerName", "")
-
-        self._album_name = attributes["albumName"]
-        self._album_position = attributes["trackNumber"]
-        self._album_disc = attributes["discNumber"]
-
-        artwork = attributes["artwork"]
-        self._artwork = ArtWork(artwork)
-
-        self._genres = attributes["genreNames"]
-        self._duration = attributes.get("durationInMillis", 0)
-
-        release_str = attributes.get("releaseDate", None)
-        if release_str:
-            self._release = datetime.date.fromisoformat(release_str)
-        else:
-            self._release = None
-
-        url = attributes["url"]
-        album_id_start = url.rfind("/") + 1
-        album_id_end = url.find("?", album_id_start)
-
-        self._album_id = url[album_id_start: album_id_end]
-
-        relations = data.get("relationships", None)
-        if relations is None:
+        relationships = data.get("relationships", None)
+        if relationships is None:
             return
 
-        artists = relations["artists"]
-        if "data" in artists:
-            artists = artists["data"]
-        self._artists = []
-        for artist in artists:
-            self._artists.append(artist["id"])
-
-    def get_image(self,
-                  width: Optional[int] = None,
-                  height: Optional[int] = None):
-        """
-        Returns the url of the image for the artwork
-
-        Parameters:
-            - width: Width to use. If None, the max possible will be used
-            - height: Height to use. If None, the max possible will be used
-        """
-        return self._artwork.get_image(width, height)
-
-    @property
-    def image(self):
-        """
-        Returns the url of the image for the artwork in max quality
-        """
-        return self.get_image()
-
-    def get_name(self, reset_values: bool = False):
-        """
-        Get the name of the song.
-
-        Parameters:
-            - reset_values (Optional): If it should ask for the
-                song information again
-        """
-        return self.get_attr("_name", reset_values)
-
-    @property
-    def name(self):
-        """
-        Get the name of the song.
-        """
-        return self._name
-
-    def get_credits(self, reset_values: bool = False):
-        """
-        Get the name of the song.
-
-        Parameters:
-            - reset_values (Optional): If it should ask for the
-                song information again
-        """
-        return self.get_attr("_credits", reset_values)
-
-    @property
-    def credits(self):
-        """
-        Get the name of the song.
-        """
-        return self._credits
-
-    def get_duration(self, reset_values: bool = False):
-        """
-        Get the duration of the song.
-
-        Parameters:
-            - reset_values (Optional): If it should ask for the
-                song information again
-        """
-        return self.get_attr("_duration", reset_values)
-
-    @property
-    def duration(self):
-        """
-        Get the total amount of time of a song in miliseconds.
-        """
-        return self.get_duration()
+        self.set_artists(relationships)
+        self.set_genres(relationships)
 
     def __repr__(self) -> str:
         return f"Apple Track (Name: {self._name} | Credits: {self._credits} | ID: {self.item_id})"

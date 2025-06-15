@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 import json
 
@@ -9,8 +9,10 @@ import datetime
 from ..common.exceptions import InvalidID
 
 from .apple_item import AppleItem, AppleTypes
-from .apple_track import AppleTrack
 from .artwork import ArtWork
+
+if TYPE_CHECKING:
+    from .apple_track import AppleTrack
 
 from ..session.applesession import AppleSession
 

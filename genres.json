@@ -1,0 +1,13 @@
+{
+    "id": "53",
+    "type": "genres",
+    "href": "/v1/catalog/us/genres/53",
+    "attributes": {
+        "parentName": "Music",
+        "name": "Instrumental",
+        "parentId": "34",
+        "url": "https://itunes.apple.com/us/genre/id53"
+    },
+    "relationships": {},
+    "views": {}
+}

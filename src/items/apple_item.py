@@ -3,7 +3,6 @@ from typing import Optional
 import json
 
 from ..session.applesession import AppleSession
-from ..session.limited_request import LimitedRequest
 from ..constants import BASE_APPLE_URL, BASE_API_URL
 
 from .exceptions import SubClassMethod
@@ -15,8 +14,8 @@ URL_CONVERSOR = {}
 URL_CONVERSOR[AppleTypes.PLAYLIST] = "playlist"
 URL_CONVERSOR[AppleTypes.TRACK] = "song"
 URL_CONVERSOR[AppleTypes.ALBUM] = "album"
-URL_CONVERSOR[AppleTypes.ARTISTS] = "artist"
-URL_CONVERSOR[AppleTypes.VIDEOS] = "music-video"
+URL_CONVERSOR[AppleTypes.ARTIST] = "artist"
+URL_CONVERSOR[AppleTypes.VIDEO] = "music-video"
 
 
 class AppleItem():

@@ -1,12 +1,14 @@
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 
 import datetime
 
 from ..session.applesession import AppleSession
 from .apple_item import AppleItem, AppleTypes
-from .apple_track import AppleTrack
+
+if TYPE_CHECKING:
+    from .apple_track import AppleTrack
+
 from .artwork import ArtWork
-from ..constants import BASE_API_URL
 
 EXPLICIT_RATING = "explicit"
 
