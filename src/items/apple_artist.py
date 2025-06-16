@@ -1,11 +1,8 @@
-from typing import Optional, TYPE_CHECKING
-
-from enum import Enum
+from typing import Optional
 
 from ..session.applesession import AppleSession
 
 from .apple_artist_base import AppleArtistBase
-
 
 
 class AppleArtist(AppleArtistBase):

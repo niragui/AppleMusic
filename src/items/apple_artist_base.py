@@ -1,7 +1,5 @@
 from typing import Optional
 
-from enum import Enum
-
 from ..session.applesession import AppleSession
 
 from .apple_item import AppleItem, AppleTypes

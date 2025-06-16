@@ -1,13 +1,12 @@
 from typing import Optional
 
-import json
-
 from ..session.applesession import AppleSession
 from ..constants import BASE_APPLE_URL, BASE_API_URL
 
 from .exceptions import SubClassMethod
 from .constants import AppleTypes
 from .extra_query import ALL_VIEWS, ALL_RELATIONSHIPS
+from .utils import get_relationship
 
 
 URL_CONVERSOR = {}
@@ -42,6 +41,35 @@ class AppleItem():
 
         if read_data:
             self.read_data()
+
+    def _set_relationship(self,
+                          relationships: dict,
+                          key: str,
+                          item_cls,
+                          target_attr: str):
+        """
+        Generic method to set related items from a relationships dict.
+
+        Parameters:
+            - relationships: The dictionary containing related items
+            - key: The key inside 'relationships' to fetch (e.g. "albums")
+            - cls: The class to instantiate for each item (e.g. AppleAlbumBase)
+            - target_attr: The name of the attribute to set (e.g. "_albums")
+        """
+        items = get_relationship(relationships, key)
+        setattr(self, target_attr, [])
+        if items is None:
+            return
+
+        result = []
+        for item in items:
+            item_id = item["id"]
+            obj = item_cls(item_id, self.session, False)
+            obj.set_data(item)
+            result.append(obj)
+
+        setattr(self, target_attr, result)
+
 
     def set_data(self,
                  data: dict):
@@ -94,9 +122,6 @@ class AppleItem():
 
         for view in self.views:
             data["relationships"][view.name] = view.get_data(self.item_id, self.session)
-
-        with open(f"{self.item_type.value}.json", "w") as f:
-            f.write(json.dumps(data, indent=4))
 
         self.set_data(data)
 

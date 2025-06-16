@@ -1,8 +1,4 @@
-from typing import Optional, TYPE_CHECKING
-
-import json
-
-from urllib.parse import urlencode
+from typing import Optional
 
 import datetime
 
@@ -11,8 +7,7 @@ from ..common.exceptions import InvalidID
 from .apple_item import AppleItem, AppleTypes
 from .artwork import ArtWork
 
-if TYPE_CHECKING:
-    from .apple_track import AppleTrack
+from .apple_track_base import AppleTrackBase
 
 from ..session.applesession import AppleSession
 
@@ -48,8 +43,6 @@ class ApplePlaylist(AppleItem):
         Parameters:
             - data: Data given by the Apple Music API
         """
-        with open("playlist.json", "w") as f:
-            f.write(json.dumps(data, indent=4))
 
         attributes = data["attributes"]
 
@@ -71,7 +64,7 @@ class ApplePlaylist(AppleItem):
         self._tracks = []
         for track in tracks_data:
             track_id = track["id"]
-            new_track = AppleTrack(track_id, self.session, False)
+            new_track = AppleTrackBase(track_id, self.session)
             new_track.set_data(track)
             self._tracks.append(new_track)
 

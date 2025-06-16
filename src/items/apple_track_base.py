@@ -7,6 +7,7 @@ from .artwork import ArtWork
 
 from ..session.applesession import AppleSession
 
+
 class AppleTrackBase(AppleItem):
     def __init__(self,
                  track_id: str,
