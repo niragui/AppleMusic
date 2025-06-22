@@ -3,7 +3,7 @@ from enum import Enum
 RELATIONSHIPS_PARAMS = {}
 RELATIONSHIPS_PARAMS["extend"] = "editorialArtwork,editorialVideo,offers,seoDescription,seoTitle,trackCount"
 
-RELATIONSHIPS_PARAMS["fields[albums]"] = "artistName,artistUrl,contentRating,genreNames,isCompilation,isComplete,isMasteredForItunes,isSingle,recordLabel,releaseDate,trackCount,name,artwork,playParams,url"
+RELATIONSHIPS_PARAMS["fields[albums]"] = "artistName,artistUrl,contentRating,genreNames,isCompilation,isComplete,isMasteredForItunes,isSingle,recordLabel,releaseDate,trackCount,name,artwork,playParams,url,editorialNotes"
 RELATIONSHIPS_PARAMS["fields[apple-curators]"] = "name,url"
 RELATIONSHIPS_PARAMS["fields[artists]"] = "name,artwork,url,genreNames,editorialNotes"
 RELATIONSHIPS_PARAMS["fields[curators]"] = "name,url"
@@ -15,10 +15,11 @@ RELATIONSHIPS_PARAMS["include[songs]"] = "artists,genres,albums,composers"
 RELATIONSHIPS_PARAMS["include[stations]"] = "tracks"
 RELATIONSHIPS_PARAMS["l"] = "en-US"
 
+
 class AppleTypes(Enum):
     PLAYLIST = "playlists"
     TRACK = "songs"
     ALBUM = "albums"
     ARTIST = "artists"
-    VIDEO = "videos"
+    VIDEO = "music-videos"
     GENRE = "genres"

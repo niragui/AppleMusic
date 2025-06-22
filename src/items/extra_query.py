@@ -118,7 +118,9 @@ class AppleItemViewQuery(AppleItemExtraQuery):
 
 
 ALL_RELATIONSHIPS = []
+ALL_VIEWS = []
 
+# region Playlist
 curator_relationship = AppleItemRelationshipQuery(AppleTypes.PLAYLIST, "curator", 1)
 ALL_RELATIONSHIPS.append(curator_relationship)
 
@@ -131,6 +133,14 @@ ALL_RELATIONSHIPS.append(tracks_relationship)
 artists_relationship = AppleItemRelationshipQuery(AppleTypes.ALBUM, "artists", 10)
 ALL_RELATIONSHIPS.append(artists_relationship)
 
+feat_view = AppleItemViewQuery(AppleTypes.PLAYLIST, "featured-artists")
+ALL_VIEWS.append(feat_view)
+
+more_curators_view = AppleItemViewQuery(AppleTypes.PLAYLIST, "more-by-curator")
+ALL_VIEWS.append(more_curators_view)
+#endregion
+
+# region Albums
 genres_relationship = AppleItemRelationshipQuery(AppleTypes.ALBUM, "genres")
 ALL_RELATIONSHIPS.append(genres_relationship)
 
@@ -143,6 +153,21 @@ ALL_RELATIONSHIPS.append(labels_relationship)
 tracks_relationship = AppleItemRelationshipQuery(AppleTypes.ALBUM, "tracks")
 ALL_RELATIONSHIPS.append(tracks_relationship)
 
+appears_on_view = AppleItemViewQuery(AppleTypes.ALBUM, "appears-on")
+ALL_VIEWS.append(appears_on_view)
+
+other_versions_view = AppleItemViewQuery(AppleTypes.ALBUM, "other-versions")
+ALL_VIEWS.append(other_versions_view)
+
+related_albums_view = AppleItemViewQuery(AppleTypes.ALBUM, "related-albums", 10, api_url=SIMPLER_API_URL)
+ALL_VIEWS.append(related_albums_view)
+
+related_videos_view = AppleItemViewQuery(AppleTypes.ALBUM, "related-videos")
+ALL_VIEWS.append(related_videos_view)
+
+#endregion
+
+# region Tracks
 albums_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "albums", 10)
 ALL_RELATIONSHIPS.append(albums_relationship)
 
@@ -164,23 +189,30 @@ ALL_RELATIONSHIPS.append(music_videos_relationship)
 station_relationship = AppleItemRelationshipQuery(AppleTypes.TRACK, "station")
 ALL_RELATIONSHIPS.append(station_relationship)
 
+#endregion
 
-ALL_VIEWS = []
+#region Video
+albums_relationship = AppleItemRelationshipQuery(AppleTypes.VIDEO, "albums", 10)
+ALL_RELATIONSHIPS.append(albums_relationship)
 
-feat_view = AppleItemViewQuery(AppleTypes.PLAYLIST, "featured-artists")
-ALL_VIEWS.append(feat_view)
+artists_relationship = AppleItemRelationshipQuery(AppleTypes.VIDEO, "artists", 10)
+ALL_RELATIONSHIPS.append(artists_relationship)
 
-more_curators_view = AppleItemViewQuery(AppleTypes.PLAYLIST, "more-by-curator")
-ALL_VIEWS.append(more_curators_view)
+genres_relationship = AppleItemRelationshipQuery(AppleTypes.VIDEO, "genres")
+ALL_RELATIONSHIPS.append(genres_relationship)
 
-appears_on_view = AppleItemViewQuery(AppleTypes.ALBUM, "appears-on")
-ALL_VIEWS.append(appears_on_view)
+library_relationship = AppleItemRelationshipQuery(AppleTypes.VIDEO, "library")
+ALL_RELATIONSHIPS.append(library_relationship)
 
-other_versions_view = AppleItemViewQuery(AppleTypes.ALBUM, "other-versions")
-ALL_VIEWS.append(other_versions_view)
+songs_relationship = AppleItemRelationshipQuery(AppleTypes.VIDEO, "songs", 10)
+ALL_RELATIONSHIPS.append(songs_relationship)
 
-related_albums_view = AppleItemViewQuery(AppleTypes.ALBUM, "related-albums", 10, api_url=SIMPLER_API_URL)
-ALL_VIEWS.append(related_albums_view)
+more_artist_view = AppleItemViewQuery(AppleTypes.VIDEO, "more-by-artist", 100)
+ALL_VIEWS.append(more_artist_view)
 
-related_videos_view = AppleItemViewQuery(AppleTypes.ALBUM, "related-videos")
-ALL_VIEWS.append(related_videos_view)
+more_genre_view = AppleItemViewQuery(AppleTypes.VIDEO, "more-in-genre", 100)
+ALL_VIEWS.append(more_genre_view)
+
+
+
+#endregion
