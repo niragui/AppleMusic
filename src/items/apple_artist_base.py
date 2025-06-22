@@ -13,7 +13,7 @@ class AppleArtistBase(AppleItem):
                  session: Optional[AppleSession] = None,
                  read_data: bool = False):
         self._name = ""
-        self._artwork = ""
+        self._artwork = None
 
         self._genres = []
 
@@ -26,8 +26,9 @@ class AppleArtistBase(AppleItem):
 
         self._name = attributes["name"]
 
-        artwork = attributes["artwork"]
-        self._artwork = ArtWork(artwork)
+        artwork = attributes.get("artwork", None)
+        if artwork is not None:
+            self._artwork = ArtWork(artwork)
 
     def get_image(self,
                   width: Optional[int] = None,
@@ -39,6 +40,9 @@ class AppleArtistBase(AppleItem):
             - width: Width to use. If None, the max possible will be used
             - height: Height to use. If None, the max possible will be used
         """
+        if self._artwork is None:
+            return None
+
         return self._artwork.get_image(width, height)
 
     @property
@@ -66,7 +70,7 @@ class AppleArtistBase(AppleItem):
         return self._name
 
     def __repr__(self) -> str:
-        return f"Apple Artist Base (Name: {self._name} | ID: {self.item_id})"
+        return f"Apple Artist (Name: {self._name} | ID: {self.item_id})"
 
     def __str__(self) -> str:
-        return f"Apple Artist Base (Name: {self._name} | ID: {self.item_id})"
+        return f"Apple Artist (Name: {self._name} | ID: {self.item_id})"
