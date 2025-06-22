@@ -18,7 +18,7 @@ class AppleGenre(AppleItem):
         self._name = ""
         self._parent_name = ""
         self._parent_id = ""
-        super().__init__(genre_id, AppleTypes.GENRE, session, read_data)
+        super().__init__(genre_id, AppleTypes.GENRE, session, read_data, True)
 
     def set_data(self, data: dict):
         attributes = data["attributes"]

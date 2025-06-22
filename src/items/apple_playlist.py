@@ -32,7 +32,7 @@ class ApplePlaylist(AppleItem):
         self._modified_date = None
 
         self._tracks = []
-        super().__init__(playlist_id, AppleTypes.PLAYLIST, session, read_data)
+        super().__init__(playlist_id, AppleTypes.PLAYLIST, session, read_data, True)
 
     def set_data(self,
                 data: dict):

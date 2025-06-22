@@ -22,7 +22,8 @@ class AppleItem():
                  item_id: str,
                  item_type: AppleTypes,
                  session: Optional[AppleSession] = None,
-                 read_data: bool = True):
+                 read_data: bool = True,
+                 read_extra_data: bool = True):
         self.item_id = item_id
         self.item_type = item_type
         if session is None:
@@ -38,6 +39,8 @@ class AppleItem():
         for view in ALL_VIEWS:
             if view.item_type == self.item_type:
                 self.views.append(view)
+
+        self.read_extra = read_extra_data
 
         if read_data:
             self.read_data()
@@ -70,7 +73,6 @@ class AppleItem():
 
         setattr(self, target_attr, result)
 
-
     def set_data(self,
                  data: dict):
         """
@@ -90,7 +92,7 @@ class AppleItem():
         if url_type is None:
             raise TypeError(f"Invalid Item Type [{self.item_type}]")
 
-        return f"{BASE_APPLE_URL}/{url_type}/useless/{self.item_id}"
+        return f"{BASE_APPLE_URL}{url_type}/useless/{self.item_id}"
 
     def get_request_url(self):
         """
@@ -117,11 +119,12 @@ class AppleItem():
         data["relationships"] = {}
         data["views"] = {}
 
-        for relationship in self.relationships:
-            data["relationships"][relationship.name] = relationship.get_data(self.item_id, self.session)
+        if self.read_extra:
+            for relationship in self.relationships:
+                data["relationships"][relationship.name] = relationship.get_data(self.item_id, self.session)
 
-        for view in self.views:
-            data["relationships"][view.name] = view.get_data(self.item_id, self.session)
+            for view in self.views:
+                data["relationships"][view.name] = view.get_data(self.item_id, self.session)
 
         self.set_data(data)
 

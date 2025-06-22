@@ -18,12 +18,7 @@ class AppleArtist(AppleArtistBase):
         self._music_videos = []
 
         super().__init__(item_id, session, read_data)
+        self.read_extra = True
 
     def set_data(self, data: dict):
         super().set_data(data)
-
-    def __repr__(self) -> str:
-        return f"Apple Artist (Name: {self._name} | ID: {self.item_id})"
-
-    def __str__(self) -> str:
-        return f"Apple Artist (Name: {self._name} | ID: {self.item_id})"
