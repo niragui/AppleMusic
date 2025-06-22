@@ -5,11 +5,7 @@ import datetime
 from ..session.applesession import AppleSession
 from .apple_item import AppleItem, AppleTypes
 
-from .apple_track_base import AppleTrackBase
-from .apple_artist_base import AppleArtistBase
-
 from .artwork import ArtWork
-from .utils import get_relationship
 
 EXPLICIT_RATING = "explicit"
 
@@ -21,9 +17,6 @@ class AppleAlbumBase(AppleItem):
                  read_data: bool = False):
         self._name = ""
         self._credits = ""
-
-        self._artists = []
-        self._tracks = []
 
         self._track_count = 0
 
@@ -43,46 +36,6 @@ class AppleAlbumBase(AppleItem):
         self._genres = []
         super().__init__(item_id, AppleTypes.ALBUM, session, read_data)
 
-    def set_artists(self, relationships: dict):
-        """
-        Sets the artists data given the relationships dictionary.
-
-        Parameters:
-            - relationships: Dictionary with the track relationships
-        """
-        self._artists = []
-
-        artists = get_relationship(relationships, "artists")
-        if artists is None:
-            return
-
-        for artist in artists:
-            artist_id = artist["id"]
-            artist_item = AppleArtistBase(artist_id, self.session)
-            artist_item.set_data(artist)
-
-            self._artists.append(artist_item)
-
-    def set_tracks(self, relationships: dict):
-        """
-        Sets the artists data given the relationships dictionary.
-
-        Parameters:
-            - relationships: Dictionary with the track relationships
-        """
-        self._tracks = []
-
-        tracks = get_relationship(relationships, "tracks")
-        if tracks is None:
-            return
-
-        for track in tracks:
-            track_id = track["id"]
-            track_item = AppleTrackBase(track_id, self.session)
-            track_item.set_data(track)
-
-            self._tracks.append(track_item)
-
     def set_data(self,
                  data: dict):
         """
@@ -93,7 +46,6 @@ class AppleAlbumBase(AppleItem):
             - data: Data given by the Apple Music API
         """
         attributes = data["attributes"]
-        relations = data.get("relationships", {})
 
         self._name = attributes["name"]
         self._credits = attributes["artistName"]
@@ -121,9 +73,6 @@ class AppleAlbumBase(AppleItem):
 
         date_str = attributes["releaseDate"]
         self._release_date = datetime.date.fromisoformat(date_str)
-
-        self.set_artists(relations)
-        self.set_tracks(relations)
 
     def get_image(self,
                   width: Optional[int] = None,
@@ -178,33 +127,6 @@ class AppleAlbumBase(AppleItem):
         """
         return self._long_desc
 
-    def get_tracks(self, amount: Optional[int] = None, reset_values: bool = False):
-        """
-        Get the tracks of the playlist.
-
-        Parameters:
-            - amount (Optional): Amount of tracks to get. Playlist order
-                will be respected. If none or negative, all tracks will
-                be returned. By default at None.
-            - reset_values (Optional): If it should ask for the
-                playlist information again
-        """
-        tracks = self.get_attr("_tracks", reset_values)
-
-        if amount is None:
-            return tracks
-        elif amount <= 0 or len(tracks) <= amount:
-            return tracks
-        else:
-            return tracks[:amount]
-
-    @property
-    def tracks(self):
-        """
-        Get the tracks of the playlist.
-        """
-        return self._tracks
-
     def get_tracks_amount(self, reset_values: bool = False):
         """
         Get the tracks of the playlist.
@@ -213,42 +135,12 @@ class AppleAlbumBase(AppleItem):
             - reset_values (Optional): If it should ask for the
                 playlist information again
         """
-        tracks = self.get_attr("_tracks", reset_values)
+        tracks_amount = self.get_attr("_track_count", reset_values)
 
-        if len(tracks) < 0:
-            return self._track_count
-
-        return len(tracks)
+        return tracks_amount
 
     def __len__(self):
-        if len(self._tracks) > 0:
-            return len(self._tracks)
-        else:
-            return self._track_count
-
-    def get_duration(self, reset_values: bool = False):
-        """
-        Get the total amount of time of a playlist in miliseconds.
-
-        Parameters:
-            - reset_values (Optional): If it should ask for the
-                playlist information again
-        """
-        if reset_values:
-            self.read_data()
-
-        total_duration = 0
-        for track in self._tracks:
-            total_duration += track.get_duration()
-
-        return total_duration
-
-    @property
-    def duration(self):
-        """
-        Get the total amount of time of a playlist in miliseconds.
-        """
-        return self.get_duration()
+        return self._track_count
 
     def get_release_date(self, reset_values: bool = False):
         """
@@ -291,7 +183,7 @@ class AppleAlbumBase(AppleItem):
         return self._credits
 
     def __repr__(self) -> str:
-        return f"Apple Album Base (Name: {self._name} | Credits: {self._credits} | ID: {self.item_id})"
+        return f"Apple Album (Name: {self._name} | Credits: {self._credits} | ID: {self.item_id})"
 
     def __str__(self) -> str:
-        return f"Apple Album Base (Name: {self._name} | Credits: {self._credits} | ID: {self.item_id})"
+        return f"Apple Album (Name: {self._name} | Credits: {self._credits} | ID: {self.item_id})"
