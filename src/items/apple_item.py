@@ -124,7 +124,7 @@ class AppleItem():
                 data["relationships"][relationship.name] = relationship.get_data(self.item_id, self.session)
 
             for view in self.views:
-                data["relationships"][view.name] = view.get_data(self.item_id, self.session)
+                data["views"][view.name] = view.get_data(self.item_id, self.session)
 
         self.set_data(data)
 

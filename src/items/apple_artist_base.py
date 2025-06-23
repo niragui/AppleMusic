@@ -11,7 +11,8 @@ class AppleArtistBase(AppleItem):
     def __init__(self,
                  item_id: str,
                  session: Optional[AppleSession] = None,
-                 read_data: bool = False):
+                 read_data: bool = False,
+                 read_extra: bool = False):
         self._name = ""
         self._artwork = None
 
@@ -19,7 +20,7 @@ class AppleArtistBase(AppleItem):
 
         self._description = ""
 
-        super().__init__(item_id, AppleTypes.ARTIST, session, read_data)
+        super().__init__(item_id, AppleTypes.ARTIST, session, read_data, read_extra)
 
     def set_data(self, data: dict):
         attributes = data["attributes"]

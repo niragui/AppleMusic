@@ -19,8 +19,7 @@ class AppleTrack(AppleTrackBase):
         self._composers = []
 
         self._genres = []
-        super().__init__(track_id, session, read_data)
-        self.read_extra = True
+        super().__init__(track_id, session, read_data, True)
 
     def set_genres(self, relationships: dict):
         self._set_relationship(relationships, "genres", AppleGenre, "_genres")

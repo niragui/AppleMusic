@@ -17,8 +17,7 @@ class AppleArtist(AppleArtistBase):
         self._playlists = []
         self._music_videos = []
 
-        super().__init__(item_id, session, read_data)
-        self.read_extra = True
+        super().__init__(item_id, session, read_data, True)
 
     def set_data(self, data: dict):
         super().set_data(data)

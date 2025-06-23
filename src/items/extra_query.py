@@ -213,6 +213,22 @@ ALL_VIEWS.append(more_artist_view)
 more_genre_view = AppleItemViewQuery(AppleTypes.VIDEO, "more-in-genre", 100)
 ALL_VIEWS.append(more_genre_view)
 
+#endregion
 
 
+#region Playlists
+tracks_relationship = AppleItemRelationshipQuery(AppleTypes.PLAYLIST, "tracks", 100)
+ALL_RELATIONSHIPS.append(tracks_relationship)
+
+curator_relationship = AppleItemRelationshipQuery(AppleTypes.PLAYLIST, "curator", 1)
+ALL_RELATIONSHIPS.append(curator_relationship)
+
+library_relationship = AppleItemRelationshipQuery(AppleTypes.PLAYLIST, "library")
+ALL_RELATIONSHIPS.append(library_relationship)
+
+feat_artist_view = AppleItemViewQuery(AppleTypes.PLAYLIST, "featured-artists")
+ALL_VIEWS.append(feat_artist_view)
+
+more_curator_view = AppleItemViewQuery(AppleTypes.PLAYLIST, "more-by-curator")
+ALL_VIEWS.append(more_curator_view)
 #endregion

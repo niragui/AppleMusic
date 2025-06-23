@@ -12,7 +12,8 @@ class AppleTrackBase(AppleItem):
     def __init__(self,
                  track_id: str,
                  session: Optional[AppleSession] = None,
-                 read_data: bool = False) -> None:
+                 read_data: bool = False,
+                 read_extra: bool = False) -> None:
         self._name = ""
         self._credits = ""
 
@@ -28,7 +29,7 @@ class AppleTrackBase(AppleItem):
         self._release = None
 
         self._artwork = None
-        super().__init__(track_id, AppleTypes.TRACK, session, read_data)
+        super().__init__(track_id, AppleTypes.TRACK, session, read_data, read_extra)
 
     def set_data(self,
                  data: dict):

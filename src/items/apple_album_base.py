@@ -14,7 +14,8 @@ class AppleAlbumBase(AppleItem):
     def __init__(self,
                  item_id: str,
                  session: Optional[AppleSession] = None,
-                 read_data: bool = False):
+                 read_data: bool = False,
+                 read_extra: bool = False):
         self._name = ""
         self._credits = ""
 
@@ -34,7 +35,7 @@ class AppleAlbumBase(AppleItem):
         self._labels = []
         self._release_date = None
         self._genres = []
-        super().__init__(item_id, AppleTypes.ALBUM, session, read_data)
+        super().__init__(item_id, AppleTypes.ALBUM, session, read_data, read_extra)
 
     def set_data(self,
                  data: dict):
