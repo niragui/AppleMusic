@@ -19,7 +19,8 @@ class AppleVideoBase(AppleItem):
     def __init__(self,
                  item_id: str,
                  session: Optional[AppleSession] = None,
-                 read_data: bool = False):
+                 read_data: bool = False,
+                 read_extra: bool = False):
         self._name = ""
         self._credits = ""
 
@@ -35,7 +36,7 @@ class AppleVideoBase(AppleItem):
         self._duration = 0
 
         self._release_date = None
-        super().__init__(item_id, AppleTypes.VIDEO, session, read_data)
+        super().__init__(item_id, AppleTypes.VIDEO, session, read_data, read_extra)
 
     def set_data(self,
                  data: dict):

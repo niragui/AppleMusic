@@ -19,8 +19,7 @@ class AppleVideo(AppleVideoBase):
         self._artists = []
         self._tracks = []
 
-        super().__init__(item_id, session, read_data)
-        self.read_extra = True
+        super().__init__(item_id, session, read_data, True)
 
     def set_artists(self, relationships: dict):
         self._set_relationship(relationships, "artists", AppleArtistBase, "_artists")
