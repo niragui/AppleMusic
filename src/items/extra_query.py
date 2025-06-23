@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 from .constants import AppleTypes, RELATIONSHIPS_PARAMS
 from .exceptions import SubClassMethod
 
-from ..constants import BASE_API_URL, SIMPLER_API_URL
+from ..constants import API_URL, SIMPLER_API_URL
 from ..session.limited_request import LimitedRequest
 from ..session.applesession import AppleSession
 
@@ -81,7 +81,7 @@ class AppleItemRelationshipQuery(AppleItemExtraQuery):
         """
         Get the base URL for the Extra Query
         """
-        relationship_url = f"{BASE_API_URL}{self.item_type.value}/{item_id}/{self.name}"
+        relationship_url = f"{API_URL}{self.item_type.value}/{item_id}/{self.name}"
 
         return relationship_url
 
@@ -98,7 +98,7 @@ class AppleItemViewQuery(AppleItemExtraQuery):
                  name: str,
                  batch_size: int = STANDARD_BATCH,
                  include_params: dict = RELATIONSHIPS_PARAMS,
-                 api_url: str = BASE_API_URL) -> None:
+                 api_url: str = API_URL) -> None:
         self.base_url = api_url
         super().__init__(item_type, name, batch_size, include_params)
 

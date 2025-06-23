@@ -1,7 +1,7 @@
 from typing import Optional
 
 from ..session.applesession import AppleSession
-from ..constants import BASE_APPLE_URL, BASE_API_URL
+from ..constants import APPLE_URL, API_URL
 
 from .exceptions import SubClassMethod
 from .constants import AppleTypes
@@ -92,13 +92,13 @@ class AppleItem():
         if url_type is None:
             raise TypeError(f"Invalid Item Type [{self.item_type}]")
 
-        return f"{BASE_APPLE_URL}{url_type}/useless/{self.item_id}"
+        return f"{APPLE_URL}{url_type}/useless/{self.item_id}"
 
     def get_request_url(self):
         """
         Creates The URL to request the data for the given item
         """
-        url = f"{BASE_API_URL}{self.item_type.value}/{self.item_id}"
+        url = f"{API_URL}{self.item_type.value}/{self.item_id}"
 
         return url
 
