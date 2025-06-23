@@ -45,7 +45,8 @@ def get_country_api_url(country: str,
 
     Parameters:
         - country: Country Name
-        - simple_api: Bool indicating if it should be the standard api or the AMP one
+        - simple_api: Bool indicating if it should be the standard api
+            or the AMP one
     """
     iso_code = get_country_iso(country)
 
@@ -64,7 +65,6 @@ def get_country_base_url(country: str):
 
     Parameters:
         - country: Country Name
-        - simple_api: Bool indicating if it should be the standard api or the AMP one
     """
     iso_code = get_country_iso(country)
 
