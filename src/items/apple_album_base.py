@@ -73,7 +73,10 @@ class AppleAlbumBase(AppleItem):
         self._genres = attributes["genreNames"]
 
         date_str = attributes["releaseDate"]
-        self._release_date = datetime.date.fromisoformat(date_str)
+        if date_str.isdigit():
+            self._release_date = datetime.date(int(date_str), 1, 1)
+        else:
+            self._release_date = datetime.date.fromisoformat(date_str)
 
     def get_image(self,
                   width: Optional[int] = None,
