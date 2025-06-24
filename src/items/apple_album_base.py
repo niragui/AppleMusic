@@ -51,12 +51,12 @@ class AppleAlbumBase(AppleItem):
         self._name = attributes["name"]
         self._credits = attributes["artistName"]
 
-        edit_notes = attributes["editorialNotes"]
+        edit_notes = attributes.get("editorialNotes", {})
         self._tag = edit_notes.get("tagline", "")
         self._short_desc = edit_notes.get("short", "")
         self._long_desc = edit_notes.get("standard", "")
 
-        content = attributes["contentRating"]
+        content = attributes.get("contentRating", "Unclear")
         self._explicit = content == EXPLICIT_RATING
         self._single = attributes["isSingle"]
         self._compilation = attributes["isCompilation"]
