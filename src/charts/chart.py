@@ -5,7 +5,7 @@ from .constants import ChartsTypes
 from .genres_checker import get_genre, GENRE_TYPE, ALL_GENRES
 from .chart_item import AppleChartItem
 
-from ..common.utils import get_country_api_url
+from ..common.countries_handle import get_country_api_url
 
 from ..session.exceptions import ConnectionError
 from ..session.applesession import AppleSession

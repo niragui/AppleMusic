@@ -1,14 +1,9 @@
 
-import os
-
-from ..constants import DATA_FOLDER
 from ..constants import BASE_APPLE_URL, BASE_API_URL, BASE_SIMPLER_API_URL
 
-from .json_handle import read_json
 from .exceptions import MissingCountry, InvalidCountry
+from .constants import COUNTRIES
 
-COUNTRIES_FILE = os.path.join(DATA_FOLDER, "countries.json")
-COUNTRIES = read_json(COUNTRIES_FILE, {})
 
 HAS_APPLE_FIELD  = "has_apple"
 ISO_CODE_FIELD = "alpha-2"
@@ -68,6 +63,6 @@ def get_country_base_url(country: str):
     """
     iso_code = get_country_iso(country)
 
-    api_url = f"{BASE_APPLE_URL}{BASE_API_URL}/"
+    api_url = f"{BASE_APPLE_URL}{iso_code}/"
 
     return api_url
