@@ -15,6 +15,7 @@ URL_CONVERSOR[AppleTypes.TRACK] = "song"
 URL_CONVERSOR[AppleTypes.ALBUM] = "album"
 URL_CONVERSOR[AppleTypes.ARTIST] = "artist"
 URL_CONVERSOR[AppleTypes.VIDEO] = "music-video"
+URL_CONVERSOR[AppleTypes.STATION] = "station"
 
 
 class AppleItem():
@@ -145,3 +146,8 @@ class AppleItem():
 
         return getattr(self, attr_name)
 
+    def reload(self):
+        """
+        Asks the API for the data again
+        """
+        self.read_data()

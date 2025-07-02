@@ -23,3 +23,4 @@ class AppleTypes(Enum):
     ARTIST = "artists"
     VIDEO = "music-videos"
     GENRE = "genres"
+    STATION = "stations"

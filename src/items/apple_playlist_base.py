@@ -47,8 +47,10 @@ class ApplePlaylistBase(AppleItem):
         attributes = data["attributes"]
 
         self._name = attributes["name"]
-        self._full_description = attributes["description"]["standard"]
-        self.short_description = attributes["description"].get("short", "")
+
+        description = attributes.get("description", {})
+        self._full_description = description.get("standard", "")
+        self.short_description = description.get("short", "")
 
         modified_date = attributes["lastModifiedDate"]
 

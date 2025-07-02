@@ -64,10 +64,12 @@ class AppleVideoBase(AppleItem):
         self._duration = attributes["durationInMillis"]
 
         release_str = attributes.get("releaseDate", None)
-        if release_str:
-            self._release = datetime.date.fromisoformat(release_str)
-        else:
+        if release_str is None:
             self._release = None
+        elif release_str.isdigit():
+            self._release = datetime.date(int(release_str), 1, 1)
+        else:
+            self._release = datetime.date.fromisoformat(release_str)
 
     def get_image(self,
                   width: Optional[int] = None,

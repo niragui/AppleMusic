@@ -34,7 +34,7 @@ class AppleAlbumBase(AppleItem):
 
         self._labels = []
         self._release_date = None
-        self._genres = []
+        self._genres_names = []
         super().__init__(item_id, AppleTypes.ALBUM, session, read_data, read_extra)
 
     def set_data(self,
@@ -70,7 +70,7 @@ class AppleAlbumBase(AppleItem):
         artwork = attributes["artwork"]
         self._artwork = ArtWork(artwork)
 
-        self._genres = attributes["genreNames"]
+        self._genres_names = attributes["genreNames"]
 
         date_str = attributes["releaseDate"]
         if date_str.isdigit():

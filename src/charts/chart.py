@@ -5,7 +5,7 @@ from .constants import ChartsTypes
 from .genres_checker import get_genre, GENRE_TYPE, ALL_GENRES
 from .chart_item import AppleChartItem
 
-from ..common.countries_handle import get_country_api_url
+from ..common.countries_handle import get_country_api_url, get_country_iso
 
 from ..session.exceptions import ConnectionError
 from ..session.applesession import AppleSession
@@ -16,6 +16,7 @@ GENRE_FIELD = "genre"
 LIMIT_FIELD = "limit"
 
 LIMIT_AMOUNT = 200
+
 
 class AppleChart():
     def __init__(self,
@@ -31,8 +32,11 @@ class AppleChart():
         self.session = session
 
         self.country = country
+        self.country_iso = get_country_iso(country)
         self.chart_type = chart_type
         self.items = []
+
+        self.read_chart()
 
     def get_url(self):
         """
@@ -80,3 +84,21 @@ class AppleChart():
         data = response.json()
 
         self.set_items(data)
+
+    def reload(self):
+        """
+        Asks the API for the data again
+        """
+        self.read_chart()
+
+    def __len__(self):
+        return len(self.items)
+
+    def __iter__(self):
+        return iter(self.items)
+
+    def __repr__(self):
+        return f"Apple Music Chart (Country: {self.country_iso} | Type: {self.chart_type.value} | Genre: {self.genre_id})"
+
+    def __str__(self):
+        return f"Apple Music Chart (Country: {self.country_iso} | Type: {self.chart_type.value} | Genre: {self.genre_id})"

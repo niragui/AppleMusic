@@ -60,7 +60,7 @@ class AppleTrackBase(AppleItem):
         if release_str is None:
             self._release = None
         elif release_str.isdigit():
-            self._release_date = datetime.date(int(release_str), 1, 1)
+            self._release = datetime.date(int(release_str), 1, 1)
         else:
             self._release = datetime.date.fromisoformat(release_str)
 

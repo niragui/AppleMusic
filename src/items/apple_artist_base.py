@@ -16,7 +16,7 @@ class AppleArtistBase(AppleItem):
         self._name = ""
         self._artwork = None
 
-        self._genres = []
+        self._genres_names = []
 
         self._description = ""
 

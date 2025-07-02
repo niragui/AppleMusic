@@ -10,11 +10,11 @@ class ArtWork():
         self.max_width: int = artwork["width"]
         self.max_height: int = artwork["height"]
 
-        self.bgColor = artwork["bgColor"]
-        self.textColor1 = artwork["textColor1"]
-        self.textColor2 = artwork["textColor2"]
-        self.textColor3 = artwork["textColor3"]
-        self.textColor4 = artwork["textColor4"]
+        self.bgColor = artwork.get("bgColor", None)
+        self.textColor1 = artwork.get("textColor1", None)
+        self.textColor2 = artwork.get("textColor2", None)
+        self.textColor3 = artwork.get("textColor3", None)
+        self.textColor4 = artwork.get("textColor4", None)
 
     def get_sizes(self,
                   width: Optional[int] = None,
