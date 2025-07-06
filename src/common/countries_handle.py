@@ -8,6 +8,8 @@ from .constants import COUNTRIES
 HAS_APPLE_FIELD  = "has_apple"
 ISO_CODE_FIELD = "alpha-2"
 
+BASE_FLAG_URL = "https://flagcdn.com/w320/"
+
 
 def get_country_iso(country: str):
     """
@@ -66,3 +68,27 @@ def get_country_base_url(country: str):
     api_url = f"{BASE_APPLE_URL}{iso_code}/"
 
     return api_url
+
+
+def get_country_flag_iso(country_iso: str):
+    """
+    Creates the URL of the flag given the iso
+
+    Parameters:
+        - country: ISO of the country to get the flag from
+    """
+    country_iso = country_iso.lower()
+
+    return f"{BASE_FLAG_URL}{country_iso}.png"
+
+
+def get_country_flag(country: str):
+    """
+    Creates the URL of the flag given the name
+
+    Parameters:
+        - country: Name of the country to get the flag from
+    """
+    iso_code = get_country_iso(country)
+
+    return get_country_flag_iso(iso_code)

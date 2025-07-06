@@ -48,11 +48,19 @@ class AppleChartItem():
         self.item = item_class(item_id, self.session, False, False)
         self.item.set_data(data)
 
+    def __hasattr__(self, attr):
+        if hasattr(self.item, attr):
+            return True
+        try:
+            object.__getattribute__(self, attr)
+            return True
+        except AttributeError:
+            return False
+
     def __getattr__(self, attr):
         if hasattr(self.item, attr):
             return getattr(self.item, attr)
         elif hasattr(self, attr):
-            #return getattr(self, attr)
             return object.__getattribute__(self, attr)
         else:
             raise AttributeError(f"Chart {self.item_type.value} Item Doesn't Have {attr}")

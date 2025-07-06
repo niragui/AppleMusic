@@ -24,9 +24,6 @@ class AppleTrack(AppleTrackBase):
     def set_genres(self, relationships: dict):
         self._set_relationship(relationships, "genres", AppleGenre, "_genres")
 
-    def set_artists(self, relationships: dict):
-        self._set_relationship(relationships, "artists", AppleArtistBase, "_artists")
-
     def set_composers(self, relationships: dict):
         self._set_relationship(relationships, "composers", AppleArtistBase, "_composers")
 

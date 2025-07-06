@@ -7,6 +7,8 @@ from .artwork import ArtWork
 
 from ..session.applesession import AppleSession
 
+from .apple_artist_base import AppleArtistBase
+
 
 class AppleTrackBase(AppleItem):
     def __init__(self,
@@ -31,6 +33,9 @@ class AppleTrackBase(AppleItem):
         self._artwork = None
         super().__init__(track_id, AppleTypes.TRACK, session, read_data, read_extra)
 
+    def set_artists(self, relationships: dict):
+        self._set_relationship(relationships, "artists", AppleArtistBase, "_artists")
+
     def set_data(self,
                  data: dict):
         """
@@ -47,8 +52,8 @@ class AppleTrackBase(AppleItem):
         self._composers = attributes.get("composerName", "")
 
         self._album_name = attributes["albumName"]
-        self._album_position = attributes["trackNumber"]
-        self._album_disc = attributes["discNumber"]
+        self._album_position = attributes.get("trackNumber", 0)
+        self._album_disc = attributes.get("discNumber", 1)
 
         artwork = attributes["artwork"]
         self._artwork = ArtWork(artwork)
@@ -69,6 +74,12 @@ class AppleTrackBase(AppleItem):
         album_id_end = url.find("?", album_id_start)
 
         self._album_id = url[album_id_start: album_id_end]
+
+        relationships = data.get("relationships", None)
+        if relationships is None:
+            return
+
+        self.set_artists(relationships)
 
     def get_image(self,
                   width: Optional[int] = None,
@@ -139,6 +150,19 @@ class AppleTrackBase(AppleItem):
         Get the total amount of time of a song in miliseconds.
         """
         return self.get_duration()
+
+    def is_by_artist(self, artist_name: str, reset_values: bool = False):
+        """
+        Checks if an artist is credited in the track.
+
+        Parameters:
+            - artist_name: Name of the artist to check
+            - reset_values (Optional): If it should ask for the
+                track information again
+        """
+        credits = self.get_attr("_credits", reset_values)
+
+        return credits.find(artist_name) >= 0
 
     def __repr__(self) -> str:
         return f"Apple Track (Name: {self._name} | Credits: {self._credits} | ID: {self.item_id})"
