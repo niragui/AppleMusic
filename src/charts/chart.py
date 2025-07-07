@@ -25,6 +25,7 @@ class AppleChart():
                  genre: GENRE_TYPE = ALL_GENRES,
                  session: Optional[AppleSession] = None) -> None:
         self.api_url = get_country_api_url(country)
+        self.genre = genre
         self.genre_id = get_genre(genre)
 
         if session is None:

@@ -1,20 +1,12 @@
 from typing import Union
 
-import os
-
 from .exceptions import InvalidGenre
-
-from ..common.json_handle import read_json
-from ..constants import DATA_FOLDER
-
+from .constants import GENRES
 
 GENRE_TYPE = Union[str, int]
 
-GENRES_FILE = os.path.join(DATA_FOLDER, "genres.json")
 
 ALL_GENRES = "Music"
-
-GENRES = read_json(GENRES_FILE)
 
 
 def is_valid_id(check_id: int):
